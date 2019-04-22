@@ -16,14 +16,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome To mobile Legend"
+            android:text="Tv Show title"
             android:textSize="20sp"/>
         <TextView
+            android:id="@+id/tv_waktu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome To mobile Legend"
+            android:text="Tv Show Schedule"
             android:textSize="20sp"/>
     </android.support.v7.widget.LinearLayoutCompat>
 

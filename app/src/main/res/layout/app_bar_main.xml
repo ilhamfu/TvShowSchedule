@@ -27,39 +27,39 @@
                 android:id="@+id/btn_monday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mon" />
+                android:text="Sen" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/btn_tuesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tue" />
+                android:text="Sel" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/btn_wednesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wed" />
+                android:text="Rab" />
             <android.support.design.widget.TabItem
                 android:id="@+id/btn_thuesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thu" />
+                android:text="Kam" />
             <android.support.design.widget.TabItem
                 android:id="@+id/btn_friday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fri" />
+                android:text="Jum" />
             <android.support.design.widget.TabItem
                 android:id="@+id/btn_saturday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sat" />
+                android:text="Sab" />
             <android.support.design.widget.TabItem
                 android:id="@+id/btn_sunday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sun" />
+                android:text="Min" />
         </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>
