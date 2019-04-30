@@ -1,13 +1,18 @@
 package hp.test.mytv.Adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.util.List;
 
+import hp.test.mytv.Activity.MainActivity;
 import hp.test.mytv.R;
 
 
@@ -19,14 +24,16 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.ViewHolder> {
         rvData = inputData;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public TextView waktu;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle;
+        TextView tvTime;
+        ToggleButton btnFavorite;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
-            title = view.findViewById(R.id.tv_title);
-            waktu = view.findViewById(R.id.tv_waktu);
+            tvTitle = view.findViewById(R.id.tv_title);
+            tvTime = view.findViewById(R.id.tv_time);
+            btnFavorite = view.findViewById(R.id.btn_favorite);
         }
     }
 
@@ -40,11 +47,21 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        final String name = rvData.get(position);
-        holder.title.setText(rvData.get(position));
-        holder.waktu.setText(rvData.get(position));
+        holder.tvTitle.setText(rvData.get(position));
+        holder.tvTime.setText(rvData.get(position));
+        holder.btnFavorite.setChecked(false);
+        holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(holder.btnFavorite.getContext(), R.drawable.ic_favorite_black_24dp));
+        holder.btnFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(holder.btnFavorite.getContext(),R.drawable.ic_favorite_24dp));
+                } else
+                    holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(holder.btnFavorite.getContext(), R.drawable.ic_favorite_black_24dp));
+            }
+        });
     }
 
     @Override

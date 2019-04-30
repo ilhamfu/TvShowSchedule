@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
-    android:orientation="horizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <android.support.v7.widget.AppCompatImageView
-        android:layout_marginHorizontal="10dp"
-        android:layout_width="75dp"
-        android:layout_height="90dp"
-        android:id="@+id/img_thumbnail"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentStart="true"
+        android:id="@+id/iv_poster"
+        android:contentDescription="TODO" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_title"
+        android:text="Title Place Holder"
+        android:layout_toEndOf="@+id/iv_poster"
         />
-    <android.support.v7.widget.LinearLayoutCompat
-        android:orientation="vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tv Show title"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/tv_waktu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tv Show Schedule"
-            android:textSize="20sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/iv_poster"
+        android:text="Time"
+        android:id="@+id/tv_time"
+        />
 
-    </android.support.v7.widget.LinearLayoutCompat>
     <ToggleButton
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/favorit"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/btn_favorite"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
         android:textOn=""
         android:textOff=""/>
 
-</android.support.v7.widget.LinearLayoutCompat>
+</RelativeLayout>
