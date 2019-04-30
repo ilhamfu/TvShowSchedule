@@ -7,7 +7,8 @@
         <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_today_black_24dp"
-            android:title="Jadwal" /><item
+            android:title="Jadwal" />
+        <item
         android:id="@+id/nav_setting"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Pengaturan" />
@@ -15,6 +16,10 @@
             android:id="@+id/nav_favorite"
             android:icon="@drawable/ic_favorite_black_24dp"
             android:title="Favorit" />
+        <item
+            android:id="@+id/nav_info"
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="Informasi" />
 
     </group>
 

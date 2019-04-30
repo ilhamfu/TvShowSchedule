@@ -27,6 +27,15 @@
             android:layout_height="wrap_content"
             android:text="Tv Show Schedule"
             android:textSize="20sp"/>
+
     </android.support.v7.widget.LinearLayoutCompat>
+    <ToggleButton
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/favorit"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textOn=""
+        android:textOff=""/>
 
 </android.support.v7.widget.LinearLayoutCompat>

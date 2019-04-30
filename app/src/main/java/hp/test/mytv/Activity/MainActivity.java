@@ -3,6 +3,7 @@ package hp.test.mytv.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +29,32 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private TvAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private List<String> rvData = new ArrayList<>();;
+    private List<String> rvData = new ArrayList<>();
+    ToggleButton toggleButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //toggleButton = (ToggleButton) findViewById(R.id.favorit);
+        //toggleButton.setChecked(false);
+        //toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_unfavorite_24dp));
+        //toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //    @Override
+        //    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        //        if (isChecked)
+        //            toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_favorite_24dp));
+        //        else
+        //            toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_unfavorite_24dp));
+        //    }
+       // });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        rvData.add("testtest");
-        rvData.add("testtest");
-        rvData.add("testtest");
+        rvData.add("Show 1");
+        rvData.add("Show 2");
+        rvData.add("Show 3");
         recyclerView = findViewById(R.id.rv);
         adapter = new TvAdapter(rvData);
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -45,6 +62,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
 
         SetTvData();
+
 
 
         TabLayout tabLayout = findViewById(R.id.day_tab);
