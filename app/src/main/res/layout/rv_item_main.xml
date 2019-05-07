@@ -11,7 +11,8 @@
         android:paddingRight="10dp"
         android:layout_alignParentStart="true"
         android:id="@+id/iv_poster"
-        android:contentDescription="TODO" />
+        android:contentDescription="TODO"
+        android:src="@drawable/logo"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,14 +20,16 @@
         android:text="Title Place Holder"
         android:layout_toEndOf="@+id/iv_poster"
         />
+
     <TextView
+        android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="83dp"
         android:layout_toEndOf="@+id/iv_poster"
-        android:text="Time"
-        android:id="@+id/tv_time"
-        />
+        android:text="Time" />
 
     <ToggleButton
         android:layout_width="50dp"
