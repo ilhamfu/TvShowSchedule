@@ -1,8 +1,10 @@
 package hp.test.mytv.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,12 +26,15 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<String> rvData = new ArrayList<>();
-
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    Toolbar tb = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
         //toggleButton.setChecked(false);
         //toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_unfavorite_24dp));
         //toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -77,19 +82,27 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+
+
     }
 
     private void SetTvData(){
 
     }
+
+
 
 
 
@@ -131,18 +144,24 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-       if (id == R.id.nav_schedule) {
-            // Handle the camera action
-       } else if (id == R.id.nav_setting) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
+        switch (id){
+            case R.id.nav_schedule:
+                Intent schedule = new Intent(MainActivity.this,MainActivity.class);
+                startActivity(schedule);
+                break;
+            case R.id.nav_setting:
+                Intent setting = new Intent(MainActivity.this,Setting.class);
+                startActivity(setting);
+                break;
+            case R.id.nav_favorite:
+                Intent favorite = new Intent(MainActivity.this,Favorite.class);
+                startActivity(favorite);
+                break;
+            case R.id.nav_info:
+                Intent info = new Intent(MainActivity.this,Info.class);
+                startActivity(info);
+                break;
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
