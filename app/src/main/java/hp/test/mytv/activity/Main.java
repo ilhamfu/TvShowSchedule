@@ -142,10 +142,7 @@ public class Main extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id){
-            case R.id.nav_schedule:
-                Intent schedule = new Intent(Main.this, Main.class);
-                startActivity(schedule);
-                break;
+
             case R.id.nav_setting:
                 Intent setting = new Intent(Main.this,Setting.class);
                 startActivity(setting);

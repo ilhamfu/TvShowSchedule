@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
 import hp.test.mytv.R;
 
 public class Setting extends AppCompatActivity
@@ -30,6 +33,13 @@ public class Setting extends AppCompatActivity
    //                     .setAction("Action", null).show();
    //         }
     //    });
+        TextView bahasa=(TextView)findViewById(R.id.bahasa);
+        bahasa.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -83,10 +93,6 @@ public class Setting extends AppCompatActivity
             case R.id.nav_schedule:
                 Intent schedule = new Intent(Setting.this, Main.class);
                 startActivity(schedule);
-                break;
-            case R.id.nav_setting:
-                Intent setting = new Intent(Setting.this,Setting.class);
-                startActivity(setting);
                 break;
             case R.id.nav_favorite:
                 Intent favorite = new Intent(Setting.this,Favorite.class);

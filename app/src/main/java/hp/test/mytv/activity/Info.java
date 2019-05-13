@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
 import hp.test.mytv.R;
 public class Info extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -17,18 +20,26 @@ public class Info extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-    //    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    //    fab.setOnClickListener(new View.OnClickListener() {
-    //        @Override
-    //        public void onClick(View view) {
-    //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-    //                    .setAction("Action", null).show();
-    //        }
-    //    });
+
+        TextView petunjuk=(TextView)findViewById(R.id.petunjuk);
+        TextView tentang=(TextView)findViewById(R.id.tentang);
+        petunjuk.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+            }
+        });
+
+        tentang.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -91,10 +102,7 @@ public class Info extends AppCompatActivity
                 Intent favorite = new Intent(Info.this,Favorite.class);
                 startActivity(favorite);
                 break;
-            case R.id.nav_info:
-                Intent info = new Intent(Info.this,Info.class);
-                startActivity(info);
-                break;
+
 
         }
 

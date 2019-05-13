@@ -87,10 +87,7 @@ public class Favorite extends AppCompatActivity
                 Intent setting = new Intent(Favorite.this,Setting.class);
                 startActivity(setting);
                 break;
-            case R.id.nav_favorite:
-                Intent favorite = new Intent(Favorite.this,Favorite.class);
-                startActivity(favorite);
-                break;
+
             case R.id.nav_info:
                 Intent info = new Intent(Favorite.this,Info.class);
                 startActivity(info);
