@@ -1,10 +1,10 @@
-package hp.test.mytv.Activity;
+package hp.test.mytv.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,91 +15,88 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
-import hp.test.mytv.Adapter.TvAdapter;
+import hp.test.mytv.adapter.OnAirAdapter;
 import hp.test.mytv.R;
+import hp.test.mytv.model.OnAirItem;
+import hp.test.mytv.model.OnAirResult;
+import hp.test.mytv.utils.APIClient;
+import hp.test.mytv.utils.TMDBInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity
+public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private List<String> rvData = new ArrayList<>();
-    DrawerLayout drawer;
-    NavigationView navigationView;
-    Toolbar tb = null;
+    Toolbar tb;
+    RecyclerView recyclerView;
+    RecyclerView.Adapter mAdapter;
+    TMDBInterface tmdbInterface;
+
+    @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
-        //toggleButton.setChecked(false);
-        //toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_unfavorite_24dp));
-        //toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-        //    @Override
-        //    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        //        if (isChecked)
-        //            toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_favorite_24dp));
-        //        else
-        //            toggleButton.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_unfavorite_24dp));
-        //    }
-       // });
+
+        //Initialize Toolbar
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        rvData.add("Show 1");
-        rvData.add("Show 2");
-        rvData.add("Show 3");
-        RecyclerView recyclerView = findViewById(R.id.rv);
-        TvAdapter adapter = new TvAdapter(rvData);
+
+        //Initialize Recycle view
+
+
+        recyclerView = findViewById(R.id.rv);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-
-        SetTvData();
 
 
+        //Initialize drawer
 
-        TabLayout tabLayout = findViewById(R.id.day_tab);
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("Select Tab", "onTabSelected: " + tab.getPosition
-                        ());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        //Api Client
+
+        tmdbInterface = APIClient.getClient().create(TMDBInterface.class);
 
 
-
+        refreshRv();
 
     }
 
-    private void SetTvData(){
+    private void refreshRv(){
+        Call<OnAirResult> onAirResultCall = tmdbInterface.getOnAir(1);
+        Log.d("Main", "refreshRv: ");
+        onAirResultCall.enqueue(new Callback<OnAirResult>() {
+            @Override
+            public void onResponse(@NonNull Call<OnAirResult> call, @NonNull Response<OnAirResult> response) {
+                assert response.body() != null;
+                List<OnAirItem>  onAirItems= response.body().getResults();
+                mAdapter = new OnAirAdapter(onAirItems);
+                recyclerView.setAdapter(mAdapter);
+            }
 
+            @Override
+            public void onFailure(Call<OnAirResult> call, Throwable t) {
+
+            }
+        });
     }
 
 
@@ -146,19 +143,19 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){
             case R.id.nav_schedule:
-                Intent schedule = new Intent(MainActivity.this,MainActivity.class);
+                Intent schedule = new Intent(Main.this, Main.class);
                 startActivity(schedule);
                 break;
             case R.id.nav_setting:
-                Intent setting = new Intent(MainActivity.this,Setting.class);
+                Intent setting = new Intent(Main.this,Setting.class);
                 startActivity(setting);
                 break;
             case R.id.nav_favorite:
-                Intent favorite = new Intent(MainActivity.this,Favorite.class);
+                Intent favorite = new Intent(Main.this,Favorite.class);
                 startActivity(favorite);
                 break;
             case R.id.nav_info:
-                Intent info = new Intent(MainActivity.this,Info.class);
+                Intent info = new Intent(Main.this,Info.class);
                 startActivity(info);
                 break;
 

@@ -1,44 +1,51 @@
-package hp.test.mytv.Adapter;
+package hp.test.mytv.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
-import hp.test.mytv.Activity.MainActivity;
 import hp.test.mytv.R;
+import hp.test.mytv.model.OnAirItem;
 
 
-public class TvAdapter extends RecyclerView.Adapter<TvAdapter.ViewHolder> {
+public class OnAirAdapter extends RecyclerView.Adapter<OnAirAdapter.ViewHolder> {
 
-    private List<String> rvData;
+    private List<OnAirItem> data;
 
-    public TvAdapter(List<String> inputData) {
-        rvData = inputData;
+    public OnAirAdapter(List<OnAirItem> inputData) {
+        data = inputData;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvMainTitle;
         TextView tvTitle;
-        TextView tvTime;
+        ImageView ivPoster;
         ToggleButton btnFavorite;
 
         ViewHolder(View view) {
             super(view);
+            tvMainTitle = view.findViewById(R.id.tv_mainTitle);
             tvTitle = view.findViewById(R.id.tv_title);
-            tvTime = view.findViewById(R.id.tv_time);
             btnFavorite = view.findViewById(R.id.btn_favorite);
+            ivPoster = view.findViewById(R.id.iv_poster);
         }
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_main, parent, false);
 
@@ -47,10 +54,16 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
-        holder.tvTitle.setText(rvData.get(position));
-        holder.tvTime.setText(rvData.get(position));
+        Log.d("Adapter", "Setting data for : "+data.get(position).getOriginalName());
+
+        holder.tvMainTitle.setText(data.get(position).getOriginalName());
+        holder.tvTitle.setText(data.get(position).getName());
+        String imgUrl = "http://image.tmdb.org/t/p/w185/" + data.get(position).getPosterPath();
+
+        Picasso.get().load(imgUrl).into(holder.ivPoster);
+
         holder.btnFavorite.setChecked(false);
         holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(holder.btnFavorite.getContext(), R.drawable.ic_favorite_black_24dp));
         holder.btnFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -67,7 +80,7 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
 
-        return rvData.size();
+        return data.size();
     }
 
 }

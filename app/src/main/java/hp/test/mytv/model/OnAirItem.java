@@ -1,11 +1,11 @@
-package hp.test.mytv.Model;
+package hp.test.mytv.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Show {
+public class OnAirItem {
     @SerializedName("original_name")
     @Expose
     private String originalName;

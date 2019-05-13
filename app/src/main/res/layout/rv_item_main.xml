@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
+    android:paddingRight="16dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    >
     <ImageView
         android:layout_width="100dp"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_alignParentStart="true"
         android:id="@+id/iv_poster"
         android:contentDescription="TODO"
-        android:src="@drawable/logo"/>
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_mainTitle"
         android:text="Title Place Holder"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textFontWeight="90"
         android:layout_toEndOf="@+id/iv_poster"
         />
 
     <TextView
-        android:id="@+id/tv_time"
+        android:id="@+id/label_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="83dp"
+        android:layout_below="@+id/tv_mainTitle"
         android:layout_toEndOf="@+id/iv_poster"
-        android:text="Time" />
+        android:text="Name : " />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/label_name"
+        android:layout_below="@+id/tv_mainTitle"
+        android:text="asdasdasdasdasd"
+        />
 
     <ToggleButton
         android:layout_width="50dp"

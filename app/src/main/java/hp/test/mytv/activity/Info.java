@@ -1,10 +1,7 @@
-package hp.test.mytv.Activity;
+package hp.test.mytv.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +17,7 @@ public class Info extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info);
+        setContentView(R.layout.activity_setting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -83,7 +80,7 @@ public class Info extends AppCompatActivity
 
         switch (id){
             case R.id.nav_schedule:
-                Intent schedule = new Intent(Info.this,MainActivity.class);
+                Intent schedule = new Intent(Info.this, Main.class);
                 startActivity(schedule);
                 break;
             case R.id.nav_setting:

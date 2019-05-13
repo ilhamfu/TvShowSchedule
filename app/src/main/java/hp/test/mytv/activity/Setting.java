@@ -1,10 +1,7 @@
-package hp.test.mytv.Activity;
+package hp.test.mytv.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -84,7 +81,7 @@ public class Setting extends AppCompatActivity
 
         switch (id){
             case R.id.nav_schedule:
-                Intent schedule = new Intent(Setting.this,MainActivity.class);
+                Intent schedule = new Intent(Setting.this, Main.class);
                 startActivity(schedule);
                 break;
             case R.id.nav_setting:

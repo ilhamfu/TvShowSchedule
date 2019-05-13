@@ -1,4 +1,4 @@
-package hp.test.mytv.Model;
+package hp.test.mytv.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -17,7 +17,7 @@ public class OnAirResult {
     private Integer totalPages;
     @SerializedName("results")
     @Expose
-    private List<Show> results = null;
+    private List<OnAirItem> results = null;
 
     public Integer getPage() {
         return page;
@@ -43,11 +43,11 @@ public class OnAirResult {
         this.totalPages = totalPages;
     }
 
-    public List<Show> getResults() {
+    public List<OnAirItem> getResults() {
         return results;
     }
 
-    public void setResults(List<Show> results) {
+    public void setResults(List<OnAirItem> results) {
         this.results = results;
     }
 }

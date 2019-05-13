@@ -1,9 +1,9 @@
-package hp.test.mytv.Model;
+package hp.test.mytv.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class Genre {
+public class GenreItem {
     @SerializedName("id")
     @Expose
     private Integer id;
