@@ -31,6 +31,7 @@ public class OnAirAdapter extends RecyclerView.Adapter<OnAirAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvMainTitle;
         TextView tvTitle;
+        TextView tvDesc;
         ImageView ivPoster;
         ToggleButton btnFavorite;
 
@@ -40,6 +41,7 @@ public class OnAirAdapter extends RecyclerView.Adapter<OnAirAdapter.ViewHolder> 
             tvTitle = view.findViewById(R.id.tv_title);
             btnFavorite = view.findViewById(R.id.btn_favorite);
             ivPoster = view.findViewById(R.id.iv_poster);
+            tvDesc = view.findViewById(R.id.tv_description);
         }
     }
 
@@ -60,7 +62,8 @@ public class OnAirAdapter extends RecyclerView.Adapter<OnAirAdapter.ViewHolder> 
 
         holder.tvMainTitle.setText(data.get(position).getOriginalName());
         holder.tvTitle.setText(data.get(position).getName());
-        String imgUrl = "http://image.tmdb.org/t/p/w185/" + data.get(position).getPosterPath();
+        holder.tvDesc.setText(data.get(position).getOverview());
+        String imgUrl = "http://image.tmdb.org/t/p/w92/" + data.get(position).getPosterPath();
 
         Picasso.get().load(imgUrl).into(holder.ivPoster);
 
