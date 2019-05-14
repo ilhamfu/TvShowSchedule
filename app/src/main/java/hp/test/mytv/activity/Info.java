@@ -30,13 +30,16 @@ public class Info extends AppCompatActivity
         petunjuk.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-
+                Intent petunjuk = new Intent(Info.this,Petunjuk.class);
+                startActivity(petunjuk);
             }
         });
 
         tentang.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                Intent tentang = new Intent(Info.this,Tentang.class);
+                startActivity(tentang);
 
             }
         });
