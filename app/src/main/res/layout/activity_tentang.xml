@@ -28,9 +28,10 @@
         android:layout_below="@id/logo_ttg"
         android:layout_alignParentLeft="true"
         android:gravity="center"
-        android:text="Tentang"
+        android:text="@string/tentang"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="246dp" />
+        tools:layout_editor_absoluteY="246dp"
+        android:textSize="20dp"/>
 
 </RelativeLayout>

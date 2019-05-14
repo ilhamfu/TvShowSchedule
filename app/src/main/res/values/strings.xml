@@ -9,4 +9,11 @@
     <string name="title_activity_setting">Setting</string>
     <string name="title_activity_favorite">Favorite</string>
     <string name="title_activity_info">Info</string>
+    <string name="tentang">Aplikasi ini merupakan aplikasi yang menampilkan jadwal program TV terbaru.
+        Jangan sampai kelewatan dan dapatkan pemberitahuan mengenai program TV favorit anda</string>
+    <string name="petunjuk">1. \tMenu Sedang Tayang menampilkan jadwal program TV yang sedang tayang pada hari ini.
+        Anda bisa menambahkan program TV favorit dengan mengklik gambar hati.\n\n
+        2. \tMenu Favorit menampilkan daftar program favorit yang anda pilih.\n\n
+    3. \tMenu Pengaturan dapat mengatur notifikasi dan bahasa pada aplikasi.\n\n
+    4. \tMenu Informasi menampilkan informasi dan petunjuk mengenai aplikasi</string>
 </resources>
