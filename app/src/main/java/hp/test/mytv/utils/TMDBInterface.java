@@ -1,7 +1,7 @@
 package hp.test.mytv.utils;
 
 import hp.test.mytv.model.genre.GenreResult;
-import hp.test.mytv.model.movie_detail.MovieDetailResult;
+import hp.test.mytv.model.show_detail.ShowDetailResult;
 import hp.test.mytv.model.on_air.OnAirResult;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,5 +16,5 @@ public interface TMDBInterface {
     Call<OnAirResult> getOnAir(@Query("page") int page);
 
     @GET("tv/{id}?api_key=0bb80c27e7acca74020ce73ec0577699&language=en-US")
-    Call<MovieDetailResult> getMovieDetail(@Path("id") int id);
+    Call<ShowDetailResult> getMovieDetail(@Path("id") int id);
 }

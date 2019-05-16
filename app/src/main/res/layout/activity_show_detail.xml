@@ -26,8 +26,6 @@
                 android:id="@+id/iv_collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
                 />
             <ProgressBar
                 android:id="@+id/pg_loading_poster"
@@ -47,7 +45,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_movie_detail" />
+    <include layout="@layout/content_show_detail"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

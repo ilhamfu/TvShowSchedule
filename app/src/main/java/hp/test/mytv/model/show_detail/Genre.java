@@ -1,5 +1,5 @@
 
-package hp.test.mytv.model.movie_detail;
+package hp.test.mytv.model.show_detail;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

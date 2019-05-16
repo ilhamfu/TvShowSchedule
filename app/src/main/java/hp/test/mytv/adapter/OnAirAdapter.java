@@ -85,13 +85,13 @@ public class OnAirAdapter extends RecyclerView.Adapter<OnAirAdapter.OnAirViewHol
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MovieDetail.class);
                 intent.putExtra("SHOW_ID",data.get(position).getId());
+                intent.putExtra("SHOW_NAME",data.get(position).getOriginalName());
+                intent.putExtra("SHOW_SUBNAME",data.get(position).getName());
                 mContext.startActivity(intent);
             }
         });
 
     }
-
-
 
 
     @Override

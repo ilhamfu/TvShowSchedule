@@ -1,5 +1,6 @@
 package hp.test.mytv.activity;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,18 +15,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import org.w3c.dom.Text;
-
 import java.util.Objects;
 
 import hp.test.mytv.R;
-import hp.test.mytv.model.movie_detail.MovieDetailResult;
+import hp.test.mytv.adapter.DetailGenreAdapter;
+import hp.test.mytv.model.show_detail.ShowDetailResult;
 import hp.test.mytv.utils.APIClient;
+import hp.test.mytv.utils.ExpandableHeightGridView;
 import hp.test.mytv.utils.TMDBInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,22 +37,41 @@ public class MovieDetail extends AppCompatActivity {
     private ProgressBar pgLoadingPoster;
     private TMDBInterface tmdbInterface;
     private TextView tvOverview;
+    private TextView tvRating;
+    private TextView tvRatingCount;
+    private TextView tvPopularity;
     private Target mTarget;
+    private ExpandableHeightGridView gvGenres;
 
+    @SuppressLint({"RestrictedApi", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
-        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_show_detail);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ivBackdropPath = findViewById(R.id.iv_collapsing_toolbar);
         pgLoadingPoster = findViewById(R.id.pg_loading_poster);
         tvOverview = findViewById(R.id.tv_overview);
+        tvPopularity = findViewById(R.id.tv_popularity);
+        tvRating = findViewById(R.id.tv_rating);
+        tvRatingCount = findViewById(R.id.tv_rating_count);
+        gvGenres = findViewById(R.id.gv_genres);
+
+
+        gvGenres.setNumColumns(2);
+        gvGenres.setExpanded(true);
+
 
         int showID = (int) getIntent().getIntExtra("SHOW_ID",0);
+        String showName = getIntent().getStringExtra("SHOW_NAME");
+        String showSubname = getIntent().getStringExtra("SHOW_SUBNAME");
 
         tmdbInterface = APIClient.getClient().create(TMDBInterface.class);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle(showName);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
         setData(showID);
 
@@ -64,6 +83,8 @@ public class MovieDetail extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
     }
 
     private void setData(int id){
@@ -95,18 +116,23 @@ public class MovieDetail extends AppCompatActivity {
         };
 
 
-        final Call<MovieDetailResult> movieDetail = tmdbInterface.getMovieDetail(id);
-        movieDetail.enqueue(new Callback<MovieDetailResult>() {
+        final Call<ShowDetailResult> movieDetail = tmdbInterface.getMovieDetail(id);
+        movieDetail.enqueue(new Callback<ShowDetailResult>() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(@NonNull Call<MovieDetailResult> call, @NonNull Response<MovieDetailResult> response) {
+            public void onResponse(@NonNull Call<ShowDetailResult> call, @NonNull Response<ShowDetailResult> response) {
                 assert response.body() != null;
-                MovieDetailResult movieDetailResult = response.body();
+                ShowDetailResult movieDetailResult = response.body();
                 String imgUrl = "http://image.tmdb.org/t/p/w780" + movieDetailResult.getPosterPath();
-                Log.d("imgURL", imgUrl);
+                Log.d("imgURL", String.valueOf(movieDetailResult.getGenres().size()));
 
 
-                getSupportActionBar().setTitle(movieDetailResult.getName());
                 tvOverview.setText(movieDetailResult.getOverview());
+                tvPopularity.setText(Double.toString(movieDetailResult.getPopularity()));
+                tvRating.setText(Double.toString(movieDetailResult.getVoteAverage()));
+                tvRatingCount.setText(Integer.toString(movieDetailResult.getVoteCount()));
+
+                gvGenres.setAdapter(new DetailGenreAdapter(movieDetailResult.getGenres(),tvOverview.getContext()));
 
                 Picasso.get().load(imgUrl).into(mTarget);
 
@@ -114,11 +140,13 @@ public class MovieDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MovieDetailResult> call, Throwable t) {
+            public void onFailure(Call<ShowDetailResult> call, Throwable t) {
 
             }
         });
+
     }
+
 
 }
 

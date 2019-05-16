@@ -1,11 +1,11 @@
 
-package hp.test.mytv.model.movie_detail;
+package hp.test.mytv.model.show_detail;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MovieDetailResult {
+public class ShowDetailResult {
 
     @SerializedName("backdrop_path")
     @Expose
