@@ -1,4 +1,4 @@
-package hp.test.mytv.model;
+package hp.test.mytv.model.on_air;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

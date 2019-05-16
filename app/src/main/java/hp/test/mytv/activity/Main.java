@@ -12,16 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hp.test.mytv.adapter.OnAirAdapter;
 import hp.test.mytv.R;
-import hp.test.mytv.model.OnAirItem;
-import hp.test.mytv.model.OnAirResult;
+import hp.test.mytv.model.on_air.OnAirItem;
+import hp.test.mytv.model.on_air.OnAirResult;
 import hp.test.mytv.utils.APIClient;
 import hp.test.mytv.utils.TMDBInterface;
 import retrofit2.Call;
@@ -33,9 +35,17 @@ public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar tb;
+
+    OnAirResult onAirResult;
+    List<OnAirItem>  onAirItems = new ArrayList<OnAirItem>();
+
     RecyclerView recyclerView;
-    RecyclerView.Adapter mAdapter;
+    OnAirAdapter mAdapter;
+    ProgressBar loadingLayer;
+
     TMDBInterface tmdbInterface;
+
+
 
     @SuppressLint("CutPasteId")
     @Override
@@ -43,31 +53,33 @@ public class Main extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navView = findViewById(R.id.nav_view);
 
         //Initialize Toolbar
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Initialize Recycle view
 
+        loadingLayer = findViewById(R.id.progressPanel);
 
         recyclerView = findViewById(R.id.rv);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
+        mAdapter = new OnAirAdapter(onAirItems);
 
         //Initialize drawer
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -75,33 +87,65 @@ public class Main extends AppCompatActivity
 
         tmdbInterface = APIClient.getClient().create(TMDBInterface.class);
 
+        recyclerView.setAdapter(mAdapter);
+
+        //Initialize Data
 
         refreshRv();
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView rv, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (layoutManager.findLastCompletelyVisibleItemPosition()==onAirItems.size()-1){
+                    loadingLayer.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    refreshRv();
+                }
+            }
+        });
+
+
+        //
+
 
     }
 
     private void refreshRv(){
-        Call<OnAirResult> onAirResultCall = tmdbInterface.getOnAir(1);
-        Log.d("Main", "refreshRv: ");
+        int nextPage = 0;
+        if (this.onAirResult!=null){
+            if (this.onAirResult.getTotalPages()>nextPage) {
+                nextPage = this.onAirResult.getPage() + 1;
+            }
+
+        }else{
+            nextPage=1;
+        }
+
+        final Call<OnAirResult> onAirResultCall = tmdbInterface.getOnAir(nextPage);
+
         onAirResultCall.enqueue(new Callback<OnAirResult>() {
             @Override
             public void onResponse(@NonNull Call<OnAirResult> call, @NonNull Response<OnAirResult> response) {
                 assert response.body() != null;
-                List<OnAirItem>  onAirItems= response.body().getResults();
-                mAdapter = new OnAirAdapter(onAirItems);
-                recyclerView.setAdapter(mAdapter);
+                setData(response.body());
+                loadingLayer.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onFailure(Call<OnAirResult> call, Throwable t) {
+            public void onFailure(@NonNull Call<OnAirResult> call, @NonNull Throwable t) {
 
             }
         });
     }
 
-
-
-
+    private void setData(OnAirResult onAirResult){
+        this.onAirResult = onAirResult;
+        this.onAirItems.addAll(onAirResult.getResults());
+        mAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onBackPressed() {

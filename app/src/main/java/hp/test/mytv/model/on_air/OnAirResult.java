@@ -1,9 +1,11 @@
-package hp.test.mytv.model;
+package hp.test.mytv.model.on_air;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import hp.test.mytv.model.on_air.OnAirItem;
 
 public class OnAirResult {
     @SerializedName("page")

@@ -23,7 +23,6 @@
         android:text="Title Place Holder"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textFontWeight="90"
         android:layout_toEndOf="@+id/iv_poster"
         />
 
@@ -50,6 +49,7 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/label_name"
         android:layout_toEndOf="@+id/iv_poster"
+        
         />
 
     <ToggleButton

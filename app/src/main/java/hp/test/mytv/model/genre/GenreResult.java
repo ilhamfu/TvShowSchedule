@@ -1,9 +1,11 @@
-package hp.test.mytv.model;
+package hp.test.mytv.model.genre;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import hp.test.mytv.model.genre.GenreItem;
 
 public class GenreResult {
     @SerializedName("genres")
