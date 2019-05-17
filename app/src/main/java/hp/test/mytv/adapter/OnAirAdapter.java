@@ -1,5 +1,6 @@
 package hp.test.mytv.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -57,7 +58,7 @@ public class OnAirAdapter extends RecyclerView.Adapter<OnAirAdapter.OnAirViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final OnAirViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final OnAirViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         final Context mContext = holder.itemView.getContext();
 

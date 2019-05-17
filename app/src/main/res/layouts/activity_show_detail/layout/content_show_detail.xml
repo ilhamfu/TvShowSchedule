@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.MovieDetail"
+    tools:showIn="@layout/activity_show_detail">
+
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/label_overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:textFontWeight="200"
+            android:text="Overview"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_below="@+id/label_overview"
+            android:id="@+id/tv_overview"
+            android:text="Overview"
+            />
+
+        <LinearLayout
+            android:layout_below="@id/tv_overview"
+            android:id="@+id/ll_rate"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Populatrity"
+                    />
+                <TextView
+                    android:id="@+id/tv_popularity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="200"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Rating"
+                    />
+                <TextView
+                    android:id="@+id/tv_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+
+                    android:text="20"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Rating Count"
+                    />
+                <TextView
+                    android:id="@+id/tv_rating_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="50"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/label_genres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textFontWeight="200"
+            android:text="Genres"
+            android:layout_below="@id/ll_rate"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            />
+
+
+        <hp.test.mytv.utils.ExpandableHeightGridView
+            android:id="@+id/gv_genres"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:numColumns="2"
+            android:layout_below="@+id/label_genres"
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/ll_properties"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_below="@id/gv_genres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="Status"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="Last Air Date"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"/>
+                <TextView
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+                <TextView
+                    android:id="@+id/tv_last_air_date"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/label_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textFontWeight="200"
+            android:text="Network"
+            android:layout_below="@id/ll_properties"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_network"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_below="@id/label_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+
+
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

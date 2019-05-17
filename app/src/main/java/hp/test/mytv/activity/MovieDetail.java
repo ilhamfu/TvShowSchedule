@@ -8,12 +8,15 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -23,6 +26,7 @@ import java.util.Objects;
 
 import hp.test.mytv.R;
 import hp.test.mytv.adapter.DetailGenreAdapter;
+import hp.test.mytv.adapter.DetailNetworkAdapter;
 import hp.test.mytv.model.show_detail.ShowDetailResult;
 import hp.test.mytv.utils.APIClient;
 import hp.test.mytv.utils.ExpandableHeightGridView;
@@ -40,6 +44,9 @@ public class MovieDetail extends AppCompatActivity {
     private TextView tvRating;
     private TextView tvRatingCount;
     private TextView tvPopularity;
+    private TextView tvStatus;
+    private TextView tvLastAirDate;
+    private RecyclerView rvNetwork;
     private Target mTarget;
     private ExpandableHeightGridView gvGenres;
 
@@ -57,8 +64,12 @@ public class MovieDetail extends AppCompatActivity {
         tvPopularity = findViewById(R.id.tv_popularity);
         tvRating = findViewById(R.id.tv_rating);
         tvRatingCount = findViewById(R.id.tv_rating_count);
+        tvStatus = findViewById(R.id.tv_status);
         gvGenres = findViewById(R.id.gv_genres);
+        tvLastAirDate = findViewById(R.id.tv_last_air_date);
 
+        rvNetwork = findViewById(R.id.rv_network);
+        rvNetwork.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         gvGenres.setNumColumns(2);
         gvGenres.setExpanded(true);
@@ -92,14 +103,13 @@ public class MovieDetail extends AppCompatActivity {
         mTarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Log.d("imgURL", "Begin Loading Image");
                 DisplayMetrics displayMetrics = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
                 int width = displayMetrics.widthPixels;
                 ivBackdropPath.getLayoutParams().height = (int) ((double)bitmap.getHeight()/bitmap.getWidth()*width);
                 ivBackdropPath.requestLayout();
                 ivBackdropPath.setImageBitmap(bitmap);
-                Log.d("imgURL", "Loading Image");
+
                 ivBackdropPath.setVisibility(View.VISIBLE);
                 pgLoadingPoster.setVisibility(View.GONE);
             }
@@ -124,13 +134,19 @@ public class MovieDetail extends AppCompatActivity {
                 assert response.body() != null;
                 ShowDetailResult movieDetailResult = response.body();
                 String imgUrl = "http://image.tmdb.org/t/p/w780" + movieDetailResult.getPosterPath();
-                Log.d("imgURL", String.valueOf(movieDetailResult.getGenres().size()));
-
+                Log.d("imgURL", String.valueOf(movieDetailResult.getNetworks()==null));
 
                 tvOverview.setText(movieDetailResult.getOverview());
                 tvPopularity.setText(Double.toString(movieDetailResult.getPopularity()));
                 tvRating.setText(Double.toString(movieDetailResult.getVoteAverage()));
                 tvRatingCount.setText(Integer.toString(movieDetailResult.getVoteCount()));
+                tvStatus.setText(
+                        movieDetailResult.getInProduction() ? "On Air":"Finish Airing"
+                );
+
+                rvNetwork.setAdapter(new DetailNetworkAdapter(movieDetailResult.getNetworks()));
+
+                tvLastAirDate.setText(movieDetailResult.getLastAirDate());
 
                 gvGenres.setAdapter(new DetailGenreAdapter(movieDetailResult.getGenres(),tvOverview.getContext()));
 
