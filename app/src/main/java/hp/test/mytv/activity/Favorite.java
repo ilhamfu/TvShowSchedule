@@ -1,46 +1,34 @@
-package hp.test.mytv;
+package hp.test.mytv.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-public class MainActivity extends AppCompatActivity
+import hp.test.mytv.R;
+public class Favorite extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_favorite);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TabLayout tabLayout = findViewById(R.id.day_tab);
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("Select Tab", "onTabSelected: " + tab.getPosition
-                        ());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+    //    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    //    fab.setOnClickListener(new View.OnClickListener() {
+    //        @Override
+    //        public void onClick(View view) {
+    //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+    //                    .setAction("Action", null).show();
+    //        }
+    //    });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -62,12 +50,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+   @Override
+   public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+       return true;
+   }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -90,19 +78,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+        switch (id){
+            case R.id.nav_schedule:
+                Intent schedule = new Intent(Favorite.this, Main.class);
+                startActivity(schedule);
+                break;
+            case R.id.nav_setting:
+                Intent setting = new Intent(Favorite.this,Setting.class);
+                startActivity(setting);
+                break;
+
+            case R.id.nav_info:
+                Intent info = new Intent(Favorite.this,Info.class);
+                startActivity(info);
+                break;
+
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

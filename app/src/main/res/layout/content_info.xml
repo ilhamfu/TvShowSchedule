@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.Info"
+    tools:showIn="@layout/app_bar_info">
+
+    <TextView
+        android:id="@+id/tentang"
+        android:layout_marginTop="72dp"
+        android:layout_marginLeft="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tentang"
+        android:textSize="24dp"/>
+
+    <TextView
+        android:id="@+id/petunjuk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tentang"
+        android:layout_marginTop="48dp"
+        android:layout_marginLeft="48dp"
+        android:text="Petunjuk"
+        android:clickable="true"
+        android:textSize="24dp"/>
+
+</RelativeLayout>
