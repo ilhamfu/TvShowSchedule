@@ -27,7 +27,7 @@ import hp.test.mytv.R;
 public class Setting extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Locale locale;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
