@@ -14,7 +14,7 @@
         android:layout_marginLeft="48dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notifikasi"
+        android:text="@string/notifikasi"
         android:clickable="true"
         android:textSize="24dp"/>
 
@@ -25,7 +25,7 @@
         android:layout_below="@id/notifikasi"
         android:layout_marginTop="48dp"
         android:layout_marginLeft="48dp"
-        android:text="Bahasa"
+        android:text="@string/bahasa"
         android:clickable="true"
         android:textSize="24dp"/>
 

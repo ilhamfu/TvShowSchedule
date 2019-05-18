@@ -14,7 +14,7 @@
         android:layout_marginLeft="48dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tentang"
+        android:text="@string/tentang"
         android:textSize="24dp"/>
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_below="@id/tentang"
         android:layout_marginTop="48dp"
         android:layout_marginLeft="48dp"
-        android:text="Petunjuk"
+        android:text="@string/petunjuk"
         android:clickable="true"
         android:textSize="24dp"/>
 

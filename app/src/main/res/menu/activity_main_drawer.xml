@@ -7,19 +7,19 @@
         <item
             android:id="@+id/nav_schedule"
             android:icon="@drawable/ic_today_black_24dp"
-            android:title="Jadwal" />
+            android:title="@string/jadwal" />
         <item
             android:id="@+id/nav_favorite"
             android:icon="@drawable/ic_favorite_black_24dp"
-            android:title="Favorit" />
+            android:title="@string/favorit" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Pengaturan" />
+            android:title="@string/pengaturan" />
         <item
             android:id="@+id/nav_info"
             android:icon="@drawable/ic_info_black_24dp"
-            android:title="Informasi" />
+            android:title="@string/informasi" />
 
     </group>
 

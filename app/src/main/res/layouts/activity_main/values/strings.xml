@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="favorit">Favorit</string>
+    <string name="jadwal">Sedang Tayang</string>
+    <string name="pengaturan">Pengaturan</string>
+    <string name="informasi">Informasi</string>
+    <string name="tentang">Tentang</string>
+    <string name="petunjuk">Petunjuk</string>
+    <string name="notifikasi">Notifikasi</string>
+    <string name="bahasa">Bahasa</string>
+    <string name="overview">Detail</string>
+    <string name="populatrity">Populatritas</string>
+    <string name="rating">Peringkat</string>
+    <string name="rating_count">Jumlah Peringkat</string>
+    <string name="genres">Genre</string>
+    <string name="status">Status</string>
+    <string name="last_air_date">Terakhir Tayang</string>
+    <string name="network">Jaringan</string>
+    <string name="name">Nama :</string>
+    <string name="network_name">Nama Jaringan</string>
+
+    <string name="app_name">TV SHOW</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">TV SHOW SCHEDULE</string>
+    <string name="nav_header_subtitle">Tv Show Schedule</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Pengaturan</string>
+    <string name="title_activity_setting">Pengaturan</string>
+    <string name="title_activity_favorite">Favorit</string>
+    <string name="title_activity_info">Informasi</string>
+    <string name="tentang_detail">Aplikasi ini merupakan aplikasi yang menampilkan jadwal program TV terbaru.
+        Jangan sampai kelewatan dan dapatkan pemberitahuan mengenai program TV favorit anda</string>
+    <string name="petunjuk_detail">1. \tMenu Sedang Tayang menampilkan jadwal program TV yang sedang tayang pada hari ini.
+        Anda bisa menambahkan program TV favorit dengan mengklik gambar hati.\n\n
+        2. \tMenu Favorit menampilkan daftar program favorit yang anda pilih.\n\n
+    3. \tMenu Pengaturan dapat mengatur notifikasi dan bahasa pada aplikasi.\n\n
+    4. \tMenu Informasi menampilkan informasi dan petunjuk mengenai aplikasi</string>
+    <string name="title_activity_movie_detail">MovieDetail</string>
+
+</resources>

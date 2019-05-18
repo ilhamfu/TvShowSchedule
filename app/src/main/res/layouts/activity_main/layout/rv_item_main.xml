@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_mainTitle"
         android:layout_toEndOf="@+id/iv_poster"
-        android:text="Name : " />
+        android:text="@string/name" />
 
     <TextView
         android:id="@+id/tv_title"

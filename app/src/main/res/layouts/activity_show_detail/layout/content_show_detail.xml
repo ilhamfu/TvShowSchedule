@@ -24,7 +24,7 @@
             android:textStyle="bold"
             android:layout_marginTop="5dp"
             android:textFontWeight="200"
-            android:text="Overview"
+            android:text="@string/overview"
             android:textSize="20sp"
             android:layout_marginStart="20dp"
 
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="Populatrity"
+                    android:text="@string/populatrity"
                     />
                 <TextView
                     android:id="@+id/tv_popularity"
@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="Rating"
+                    android:text="@string/rating"
                     />
                 <TextView
                     android:id="@+id/tv_rating"
@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="Rating Count"
+                    android:text="@string/rating_count"
                     />
                 <TextView
                     android:id="@+id/tv_rating_count"
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textFontWeight="200"
-            android:text="Genres"
+            android:text="@string/genres"
             android:layout_below="@id/ll_rate"
             android:textSize="20sp"
             android:layout_marginStart="20dp"
@@ -159,13 +159,13 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:text="Status"/>
+                    android:text="@string/status"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:text="Last Air Date"/>
+                    android:text="@string/last_air_date"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_marginStart="10dp"
@@ -210,7 +210,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textFontWeight="200"
-            android:text="Network"
+            android:text="@string/network"
             android:layout_below="@id/ll_properties"
             android:textSize="20sp"
             android:layout_marginStart="20dp"
