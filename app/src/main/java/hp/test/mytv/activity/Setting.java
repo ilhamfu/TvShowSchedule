@@ -1,12 +1,17 @@
 package hp.test.mytv.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,24 +22,32 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+import io.paperdb.Paper;
 import java.util.Locale;
 
 import hp.test.mytv.R;
 
 public class Setting extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-
-
+    private  final  String CHANNEL_ID = "personal_norifications";
+    private final int NOTIFICATION_ID = 001;
+    Button btnSave;
+    EditText edtTitle,edtContent;
+    String title = "Title";
+    String content = "Content";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Paper.init(this);
+        Paper.book().write("title",title);
+        Paper.book().write("content",content);
 
     //    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
    //     fab.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +57,10 @@ public class Setting extends AppCompatActivity
    //                     .setAction("Action", null).show();
    //         }
     //    });
+
+
+
+
         TextView bahasa=(TextView)findViewById(R.id.bahasa);
         bahasa.setOnClickListener(new View.OnClickListener() {
 
@@ -62,6 +79,37 @@ public class Setting extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void displayNotification(View view)
+    {
+        createNotificationChannel();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.ic_notifications_black_24dp);
+        builder.setContentTitle("Title");
+        builder.setContentText("Detail");
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(NOTIFICATION_ID,builder.build());
+
+    }
+
+    private void createNotificationChannel()
+    {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
+        {
+            CharSequence name = "Personal Notifications";
+            String description = "Include all the Personal Notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,name,importance);
+
+            notificationChannel.setDescription(description);
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
     }
 
 

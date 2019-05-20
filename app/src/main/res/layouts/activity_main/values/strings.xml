@@ -38,5 +38,7 @@
     3. \tMenu Pengaturan dapat mengatur notifikasi dan bahasa pada aplikasi.\n\n
     4. \tMenu Informasi menampilkan informasi dan petunjuk mengenai aplikasi</string>
     <string name="title_activity_movie_detail">MovieDetail</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>
