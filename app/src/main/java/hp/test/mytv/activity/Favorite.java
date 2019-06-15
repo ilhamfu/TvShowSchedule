@@ -12,13 +12,21 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import hp.test.mytv.R;
 import hp.test.mytv.adapter.OnAirAdapterSQL;
+import hp.test.mytv.model.sql_lite.OnAir;
 import hp.test.mytv.utils.DatabaseHelper;
 
 public class Favorite extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView recyclerView;
+    private OnAirAdapterSQL onAirAdapterSQL;
+    private DatabaseHelper databaseHelper;
+    private List<OnAir> onAirList = new ArrayList<OnAir>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +35,15 @@ public class Favorite extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        databaseHelper = new DatabaseHelper(getApplicationContext());
+
         recyclerView = findViewById(R.id.rv_favorite);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        onAirAdapterSQL = new OnAirAdapterSQL(onAirList,getApplicationContext());
+        recyclerView.setAdapter(onAirAdapterSQL);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -44,8 +58,8 @@ public class Favorite extends AppCompatActivity
     }
 
     private void getFavorite() {
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-        recyclerView.setAdapter(new OnAirAdapterSQL(databaseHelper.getOnAirs(true)));
+        onAirList = databaseHelper.getOnAirs(true);
+        onAirAdapterSQL.notifyDataSetChanged();
     }
 
     @Override

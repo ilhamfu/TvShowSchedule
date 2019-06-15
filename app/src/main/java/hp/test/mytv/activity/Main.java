@@ -31,6 +31,7 @@ import hp.test.mytv.R;
 import hp.test.mytv.adapter.OnAirAdapterSQL;
 import hp.test.mytv.model.on_air.OnAirItem;
 import hp.test.mytv.model.on_air.OnAirResult;
+import hp.test.mytv.model.sql_lite.OnAir;
 import hp.test.mytv.services.FetchJobService;
 import hp.test.mytv.utils.APIClient;
 import hp.test.mytv.utils.DatabaseHelper;
@@ -49,10 +50,10 @@ public class Main extends AppCompatActivity
     Toolbar tb;
 
     OnAirResult onAirResult;
-    List<OnAirItem>  onAirItems = new ArrayList<OnAirItem>();
+    List<OnAir>  onAirItems = new ArrayList<OnAir>();
 
     RecyclerView recyclerView;
-    OnAirAdapter mAdapter;
+    OnAirAdapterSQL mAdapter;
     ProgressBar loadingLayer;
 
     TMDBInterface tmdbInterface;
@@ -90,7 +91,9 @@ public class Main extends AppCompatActivity
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new OnAirAdapterSQL(onAirItems,getApplicationContext());
 
+        recyclerView.setAdapter(mAdapter);
         //Initialize drawer
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -119,7 +122,7 @@ public class Main extends AppCompatActivity
                 if (layoutManager.findLastCompletelyVisibleItemPosition()==onAirItems.size()-1){
                     loadingLayer.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
-                    refreshRv();
+//                    refreshRv();
                 }
             }
         });
@@ -154,47 +157,49 @@ public class Main extends AppCompatActivity
 
     private void refreshRv2(){
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-        recyclerView.setAdapter(new OnAirAdapterSQL(databaseHelper.getOnAirs()));
+        onAirItems.clear();
+        onAirItems.addAll(databaseHelper.getOnAirs());
         loadingLayer.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
-    }
-
-    private void refreshRv(){
-        int nextPage = 0;
-        if (this.onAirResult!=null){
-            if (this.onAirResult.getTotalPages()>nextPage) {
-                nextPage = this.onAirResult.getPage() + 1;
-            }
-
-        }else{
-            nextPage=1;
-        }
-
-        final Call<OnAirResult> onAirResultCall = tmdbInterface.getOnAir(nextPage);
-
-        onAirResultCall.enqueue(new Callback<OnAirResult>() {
-            @Override
-            public void onResponse(Call<OnAirResult> call, Response<OnAirResult> response) {
-                assert response.body() != null;
-                setData(response.body());
-                loadingLayer.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onFailure(Call<OnAirResult> call, Throwable t) {
-
-            }
-        });
-
-
-    }
-
-    private void setData(@NonNull OnAirResult onAirResult){
-        this.onAirResult = onAirResult;
-        this.onAirItems.addAll(onAirResult.getResults());
         mAdapter.notifyDataSetChanged();
     }
+
+//    private void refreshRv(){
+//        int nextPage = 0;
+//        if (this.onAirResult!=null){
+//            if (this.onAirResult.getTotalPages()>nextPage) {
+//                nextPage = this.onAirResult.getPage() + 1;
+//            }
+//
+//        }else{
+//            nextPage=1;
+//        }
+//
+//        final Call<OnAirResult> onAirResultCall = tmdbInterface.getOnAir(nextPage);
+//
+//        onAirResultCall.enqueue(new Callback<OnAirResult>() {
+//            @Override
+//            public void onResponse(Call<OnAirResult> call, Response<OnAirResult> response) {
+//                assert response.body() != null;
+//                setData(response.body());
+//                loadingLayer.setVisibility(View.GONE);
+//                recyclerView.setVisibility(View.VISIBLE);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<OnAirResult> call, Throwable t) {
+//
+//            }
+//        });
+//
+//
+//    }
+
+//    private void setData(@NonNull OnAirResult onAirResult){
+//        this.onAirResult = onAirResult;
+//        this.onAirItems.addAll(onAirResult.getResults());
+//        mAdapter.notifyDataSetChanged();
+//    }
 
     @Override
     public void onBackPressed() {

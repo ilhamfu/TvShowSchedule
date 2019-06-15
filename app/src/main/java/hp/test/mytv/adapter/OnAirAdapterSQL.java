@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,12 @@ import hp.test.mytv.utils.DatabaseHelper;
 public class OnAirAdapterSQL extends RecyclerView.Adapter<OnAirAdapterSQL.OnAirViewHolder> {
 
     private List<OnAir> data;
-
-    public OnAirAdapterSQL(List<OnAir> inputData) {
-        data = inputData;
+    private DatabaseHelper databaseHelper;
+    private Context mContext;
+    public OnAirAdapterSQL(List<OnAir> inputData,Context context) {
+        data = inputData;;
+        mContext=context;
+        databaseHelper = new DatabaseHelper(mContext);
     }
 
     class OnAirViewHolder extends RecyclerView.ViewHolder {
@@ -48,7 +52,10 @@ public class OnAirAdapterSQL extends RecyclerView.Adapter<OnAirAdapterSQL.OnAirV
             ivPoster = view.findViewById(R.id.iv_poster);
             tvDesc = view.findViewById(R.id.tv_description);
         }
+
+
     }
+
 
     @NonNull
     @Override
@@ -62,7 +69,6 @@ public class OnAirAdapterSQL extends RecyclerView.Adapter<OnAirAdapterSQL.OnAirV
     @Override
     public void onBindViewHolder(@NonNull final OnAirViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
-        final Context mContext = holder.itemView.getContext();
 
         final DatabaseHelper databaseHelper = new DatabaseHelper(holder.tvDesc.getContext());
 
@@ -73,20 +79,22 @@ public class OnAirAdapterSQL extends RecyclerView.Adapter<OnAirAdapterSQL.OnAirV
 
         Picasso.get().load(imgUrl).into(holder.ivPoster);
 
+        holder.btnFavorite.setOnCheckedChangeListener(null);
         holder.btnFavorite.setChecked(data.get(position).getFavorite());
         holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(mContext, data.get(position).getFavorite()?R.drawable.ic_favorite_24dp:R.drawable.ic_favorite_black_24dp));
         holder.btnFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.ic_favorite_24dp));
-                    databaseHelper.addFavorite(data.get(position).getId());
 
-                } else {
+                data.get(position).setFavorite(isChecked);
+                if (isChecked) {
                     holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_favorite_black_24dp));
+                    databaseHelper.addFavorite(data.get(position).getId());
+                } else {
+                    holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_favorite_24dp));
                     databaseHelper.removeFavorite(data.get(position).getId());
                 }
-
+                notifyDataSetChanged();
             }
         });
 
@@ -94,6 +102,7 @@ public class OnAirAdapterSQL extends RecyclerView.Adapter<OnAirAdapterSQL.OnAirV
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MovieDetail.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("SHOW_ID",data.get(position).getId());
                 intent.putExtra("SHOW_NAME",data.get(position).getOriginalName());
                 intent.putExtra("SHOW_SUBNAME",data.get(position).getName());
