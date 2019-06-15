@@ -59,6 +59,7 @@ public class FetchJobService extends JobService {
 
     private void addTv(OnAirResult result) {
         databaseHelper.addOnAirs(result.getResults());
+        databaseHelper.updateFavorite();
     }
 
     @Override

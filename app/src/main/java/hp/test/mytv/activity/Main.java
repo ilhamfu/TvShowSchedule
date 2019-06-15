@@ -31,7 +31,6 @@ import hp.test.mytv.R;
 import hp.test.mytv.adapter.OnAirAdapterSQL;
 import hp.test.mytv.model.on_air.OnAirItem;
 import hp.test.mytv.model.on_air.OnAirResult;
-import hp.test.mytv.model.sql_lite.OnAir;
 import hp.test.mytv.services.FetchJobService;
 import hp.test.mytv.utils.APIClient;
 import hp.test.mytv.utils.DatabaseHelper;
@@ -57,8 +56,6 @@ public class Main extends AppCompatActivity
     ProgressBar loadingLayer;
 
     TMDBInterface tmdbInterface;
-
-
 
 
     @SuppressLint("CutPasteId")
@@ -147,6 +144,12 @@ public class Main extends AppCompatActivity
         } else {
             Log.d(TAG, "Job scheduling failed");
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshRv2();
     }
 
     private void refreshRv2(){

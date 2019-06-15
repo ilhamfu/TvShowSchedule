@@ -7,12 +7,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import hp.test.mytv.R;
+import hp.test.mytv.adapter.OnAirAdapterSQL;
+import hp.test.mytv.utils.DatabaseHelper;
+
 public class Favorite extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,14 +27,9 @@ public class Favorite extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-    //    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    //    fab.setOnClickListener(new View.OnClickListener() {
-    //        @Override
-    //        public void onClick(View view) {
-    //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-    //                    .setAction("Action", null).show();
-    //        }
-    //    });
+        recyclerView = findViewById(R.id.rv_favorite);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -38,6 +39,13 @@ public class Favorite extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        getFavorite();
+    }
+
+    private void getFavorite() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+        recyclerView.setAdapter(new OnAirAdapterSQL(databaseHelper.getOnAirs(true)));
     }
 
     @Override

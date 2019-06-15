@@ -53,6 +53,8 @@ public class MovieDetail extends AppCompatActivity {
     private Target mTarget;
     private ExpandableHeightGridView gvGenres;
 
+    private boolean favorite;
+
     @SuppressLint({"RestrictedApi", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +62,6 @@ public class MovieDetail extends AppCompatActivity {
         setContentView(R.layout.activity_show_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-        for(OnAir onAir:databaseHelper.getOnAirs(true)){
-            Log.d("Test", "onCreate: " + onAir.getName());
-        };
-
 
         ivBackdropPath = findViewById(R.id.iv_collapsing_toolbar);
         pgLoadingPoster = findViewById(R.id.pg_loading_poster);
@@ -83,10 +79,13 @@ public class MovieDetail extends AppCompatActivity {
         gvGenres.setNumColumns(2);
         gvGenres.setExpanded(true);
 
+        final DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
 
-        int showID = (int) getIntent().getIntExtra("SHOW_ID",0);
+        final int showID = (int) getIntent().getIntExtra("SHOW_ID",0);
         String showName = getIntent().getStringExtra("SHOW_NAME");
         String showSubname = getIntent().getStringExtra("SHOW_SUBNAME");
+        favorite = getIntent().getBooleanExtra("FAVORITE",false);
+        tvOverview.setText(getIntent().getStringExtra("OVERVIEW"));
 
         tmdbInterface = APIClient.getClient().create(TMDBInterface.class);
 
@@ -95,16 +94,28 @@ public class MovieDetail extends AppCompatActivity {
 
         setData(showID);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageDrawable(getDrawable(favorite?R.drawable.ic_favorite_black_24dp:R.drawable.ic_unfavorite_24dp));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (updateFavorite()){
+                    fab.setImageDrawable(getDrawable(R.drawable.ic_favorite_black_24dp));
+                    databaseHelper.addFavorite(showID);
+                }else{
+                    fab.setImageDrawable(getDrawable(R.drawable.ic_unfavorite_24dp));
+                    databaseHelper.removeFavorite(showID);
+                };
+
             }
         });
 
 
+    }
+
+    public boolean updateFavorite(){
+        favorite = ! favorite;
+        return favorite;
     }
 
     private void setData(int id){
@@ -145,7 +156,6 @@ public class MovieDetail extends AppCompatActivity {
                 String imgUrl = "http://image.tmdb.org/t/p/w780" + movieDetailResult.getPosterPath();
                 Log.d("imgURL", String.valueOf(movieDetailResult.getNetworks()==null));
 
-                tvOverview.setText(movieDetailResult.getOverview());
                 tvPopularity.setText(Double.toString(movieDetailResult.getPopularity()));
                 tvRating.setText(Double.toString(movieDetailResult.getVoteAverage()));
                 tvRatingCount.setText(Integer.toString(movieDetailResult.getVoteCount()));

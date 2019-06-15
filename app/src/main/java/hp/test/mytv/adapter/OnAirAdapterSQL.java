@@ -97,6 +97,8 @@ public class OnAirAdapterSQL extends RecyclerView.Adapter<OnAirAdapterSQL.OnAirV
                 intent.putExtra("SHOW_ID",data.get(position).getId());
                 intent.putExtra("SHOW_NAME",data.get(position).getOriginalName());
                 intent.putExtra("SHOW_SUBNAME",data.get(position).getName());
+                intent.putExtra("FAVORITE",data.get(position).getFavorite());
+                intent.putExtra("OVERVIEW",data.get(position).getOverview());
                 mContext.startActivity(intent);
             }
         });
