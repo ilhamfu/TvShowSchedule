@@ -3,6 +3,7 @@ package hp.test.mytv.activity;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -28,7 +29,9 @@ import hp.test.mytv.R;
 import hp.test.mytv.adapter.DetailGenreAdapter;
 import hp.test.mytv.adapter.DetailNetworkAdapter;
 import hp.test.mytv.model.show_detail.ShowDetailResult;
+import hp.test.mytv.model.sql_lite.OnAir;
 import hp.test.mytv.utils.APIClient;
+import hp.test.mytv.utils.DatabaseHelper;
 import hp.test.mytv.utils.ExpandableHeightGridView;
 import hp.test.mytv.utils.TMDBInterface;
 import retrofit2.Call;
@@ -57,6 +60,12 @@ public class MovieDetail extends AppCompatActivity {
         setContentView(R.layout.activity_show_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+        for(OnAir onAir:databaseHelper.getOnAirs(true)){
+            Log.d("Test", "onCreate: " + onAir.getName());
+        };
+
 
         ivBackdropPath = findViewById(R.id.iv_collapsing_toolbar);
         pgLoadingPoster = findViewById(R.id.pg_loading_poster);

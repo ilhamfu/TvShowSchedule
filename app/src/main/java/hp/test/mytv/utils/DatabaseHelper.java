@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(OnAir.COLUMN_POSTER,onAirItem.getPosterPath());
             long id = sqLiteDatabase.insert(OnAir.TABLE_NAME,null,values);
         }
+        sqLiteDatabase.close();
     }
 
     public void clearOnAir(){
@@ -57,28 +59,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<OnAir> getOnAirs(){
+        return getOnAirs(false);
+    }
+
+    public List<OnAir> getOnAirs(boolean favorite){
         List<OnAir> onAirs = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + OnAir.TABLE_NAME + " ORDER BY timestamp",null);
+        Cursor cursor = sqLiteDatabase.query(OnAir.TABLE_NAME,null,OnAir.COLUMN_FAVORITE+">=?",new String[]{favorite?"1":"0"},null,null,OnAir.COLUMN_NAME);
         if (cursor.moveToFirst()){
             do {
                 OnAir onAir = new OnAir(
+                        cursor.getInt(cursor.getColumnIndex(OnAir.COLUMN_ID)),
                         cursor.getString(cursor.getColumnIndex(OnAir.COLUMN_ORIGINAL_NAME)),
                         cursor.getString(cursor.getColumnIndex(OnAir.COLUMN_NAME)),
                         cursor.getString(cursor.getColumnIndex(OnAir.COLUMN_OVERVIEW)),
                         cursor.getString(cursor.getColumnIndex(OnAir.COLUMN_POSTER)),
                         cursor.getInt(cursor.getColumnIndex(OnAir.COLUMN_FAVORITE))>0
                 );
-                onAirs.add(0,onAir);
+                onAirs.add(onAir);
             }while (cursor.moveToNext());
         }
+        cursor.close();
+        sqLiteDatabase.close();
         return  onAirs;
     }
 
     public int getNotesCount() {
         String countQuery = "SELECT  * FROM " + OnAir.TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(countQuery, null);
 
         int count = cursor.getCount();
         cursor.close();
@@ -89,27 +98,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void updateFavorite(){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
-       db.execSQL("UPDATE " + OnAir.TABLE_NAME + " SET "+ OnAir.COLUMN_FAVORITE + " = 1 WHERE "+ OnAir.COLUMN_ID +" IN (" +
+        sqLiteDatabase.execSQL("UPDATE " + OnAir.TABLE_NAME + " SET "+ OnAir.COLUMN_FAVORITE + " = 1 WHERE "+ OnAir.COLUMN_ID +" IN (" +
                 "SELECT "+ Favorite.COLUMN_TMDB_ID + " FROM "+ Favorite.TABLE_NAME +
                ")");
+        sqLiteDatabase.close();
+
     }
 
-
-    public long addFavorite(int tmdbId){
+    public void addFavorite(int tmdbId){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Favorite.COLUMN_TMDB_ID,tmdbId);
-        long id = sqLiteDatabase.insert(Favorite.TABLE_NAME,null,values);
+        sqLiteDatabase.insert(Favorite.TABLE_NAME,null,values);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(OnAir.COLUMN_FAVORITE,1);
+
+        sqLiteDatabase.update(OnAir.TABLE_NAME,contentValues,OnAir.COLUMN_ID+"=?",new String[]{String.valueOf(tmdbId)});
         sqLiteDatabase.close();
-        return id;
     }
 
-    public void removeFavorite(Favorite favorite){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(Favorite.TABLE_NAME, Favorite.COLUMN_TMDB_ID + " = ?",
-                new String[]{String.valueOf(favorite.getTmdbId())});
-        db.close();
+    public void removeFavorite(int tmdbId){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(Favorite.TABLE_NAME, Favorite.COLUMN_TMDB_ID + " = ?",
+                new String[]{String.valueOf(tmdbId)});
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(OnAir.COLUMN_FAVORITE,0);
+        sqLiteDatabase.update(OnAir.TABLE_NAME,contentValues,OnAir.COLUMN_ID+"=?",new String[]{String.valueOf(tmdbId)});
+        sqLiteDatabase.close();
     }
+
 }

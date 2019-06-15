@@ -16,6 +16,16 @@ public class OnAir {
     public static final String COLUMN_ORIGINAL_NAME = "ORIGINAL_NAME";
     public static final String COLUMN_POSTER = "POSTER";
     public static final String COLUMN_OVERVIEW="OVERVIEW";
+
+    public OnAir(Integer id, String originalName, String name, String overview, String posterPath, Boolean favorite) {
+        this.id = id;
+        this.originalName = originalName;
+        this.name = name;
+        this.overview = overview;
+        this.posterPath = posterPath;
+        this.favorite = favorite;
+    }
+
     public static final String CREATE_TABLE = String.format(
             "CREATE TABLE %s (" +
                     "%s INTEGER PRIMARY_KEY," +
@@ -23,7 +33,8 @@ public class OnAir {
                     "%s TEXT," +
                     "%s TEXT," +
                     "%s TEXT," +
-                    "%s TEXT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP) ",
+                    "%s TEXT," +
+                    "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP) ",
             TABLE_NAME,COLUMN_ID,COLUMN_FAVORITE,COLUMN_NAME,COLUMN_ORIGINAL_NAME,COLUMN_POSTER,COLUMN_OVERVIEW
     );
     public static final String DROP_TABLE =
@@ -38,13 +49,7 @@ public class OnAir {
         this.favorite = favorite;
     }
 
-    public OnAir(String originalName, String name, String overview, String posterPath, Boolean favorite) {
-        this.originalName = originalName;
-        this.name = name;
-        this.overview = overview;
-        this.posterPath = posterPath;
-        this.favorite = favorite;
-    }
+
 
     public Integer getId() {
         return id;

@@ -59,10 +59,6 @@ public class FetchJobService extends JobService {
 
     private void addTv(OnAirResult result) {
         databaseHelper.addOnAirs(result.getResults());
-        List<OnAir> onAirList = databaseHelper.getOnAirs();
-        for (OnAir onAir : onAirList) {
-            Log.d(TAG, "addTv: " + onAir.getName());
-        }
     }
 
     @Override

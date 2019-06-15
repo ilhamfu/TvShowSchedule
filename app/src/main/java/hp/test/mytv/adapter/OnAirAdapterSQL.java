@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +25,11 @@ import hp.test.mytv.model.sql_lite.OnAir;
 import hp.test.mytv.utils.DatabaseHelper;
 
 
-public class OnAirAdapter extends RecyclerView.Adapter<OnAirAdapter.OnAirViewHolder> {
+public class OnAirAdapterSQL extends RecyclerView.Adapter<OnAirAdapterSQL.OnAirViewHolder> {
 
-    private List<OnAirItem> data;
+    private List<OnAir> data;
 
-    public OnAirAdapter(List<OnAirItem> inputData) {
+    public OnAirAdapterSQL(List<OnAir> inputData) {
         data = inputData;
     }
 
@@ -74,8 +73,8 @@ public class OnAirAdapter extends RecyclerView.Adapter<OnAirAdapter.OnAirViewHol
 
         Picasso.get().load(imgUrl).into(holder.ivPoster);
 
-        holder.btnFavorite.setChecked(false);
-        holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_favorite_black_24dp));
+        holder.btnFavorite.setChecked(data.get(position).getFavorite());
+        holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(mContext, data.get(position).getFavorite()?R.drawable.ic_favorite_24dp:R.drawable.ic_favorite_black_24dp));
         holder.btnFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

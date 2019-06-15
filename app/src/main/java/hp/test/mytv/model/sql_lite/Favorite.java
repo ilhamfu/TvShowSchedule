@@ -6,13 +6,13 @@ public class Favorite {
     private long tmdb_id;
 
     public static final String TABLE_NAME = "Favorite";
-    public static final String COLUMN_ID = "ID";
-    public static final String COLUMN_TMDB_ID = "TMDB_ID";
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_TMDB_ID = "tmdbid";
 
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("+
                 COLUMN_ID + " INTEGER AUTO_INCREMENT PRIMARY KEY,"+
-                COLUMN_TMDB_ID + "INTEGER," +
+                COLUMN_TMDB_ID + " INTEGER UNIQUE," +
                     "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP" +
             ")";
 

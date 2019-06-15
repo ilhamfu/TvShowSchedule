@@ -28,10 +28,13 @@ import java.util.List;
 
 import hp.test.mytv.adapter.OnAirAdapter;
 import hp.test.mytv.R;
+import hp.test.mytv.adapter.OnAirAdapterSQL;
 import hp.test.mytv.model.on_air.OnAirItem;
 import hp.test.mytv.model.on_air.OnAirResult;
+import hp.test.mytv.model.sql_lite.OnAir;
 import hp.test.mytv.services.FetchJobService;
 import hp.test.mytv.utils.APIClient;
+import hp.test.mytv.utils.DatabaseHelper;
 import hp.test.mytv.utils.TMDBInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +57,8 @@ public class Main extends AppCompatActivity
     ProgressBar loadingLayer;
 
     TMDBInterface tmdbInterface;
+
+
 
 
     @SuppressLint("CutPasteId")
@@ -89,8 +94,6 @@ public class Main extends AppCompatActivity
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new OnAirAdapter(onAirItems);
-
         //Initialize drawer
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -107,11 +110,9 @@ public class Main extends AppCompatActivity
 
         tmdbInterface = APIClient.getClient().create(TMDBInterface.class);
 
-        recyclerView.setAdapter(mAdapter);
-
         //Initialize Data
 
-        refreshRv();
+        refreshRv2();
 
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -146,6 +147,13 @@ public class Main extends AppCompatActivity
         } else {
             Log.d(TAG, "Job scheduling failed");
         }
+    }
+
+    private void refreshRv2(){
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+        recyclerView.setAdapter(new OnAirAdapterSQL(databaseHelper.getOnAirs()));
+        loadingLayer.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void refreshRv(){
