@@ -3,6 +3,7 @@ package hp.test.mytv.utils;
 import hp.test.mytv.model.genre.GenreResult;
 import hp.test.mytv.model.show_detail.ShowDetailResult;
 import hp.test.mytv.model.on_air.OnAirResult;
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

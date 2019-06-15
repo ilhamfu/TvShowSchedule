@@ -1,6 +1,9 @@
 package hp.test.mytv.activity;
 
 import android.annotation.SuppressLint;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -26,6 +30,7 @@ import hp.test.mytv.adapter.OnAirAdapter;
 import hp.test.mytv.R;
 import hp.test.mytv.model.on_air.OnAirItem;
 import hp.test.mytv.model.on_air.OnAirResult;
+import hp.test.mytv.services.FetchJobService;
 import hp.test.mytv.utils.APIClient;
 import hp.test.mytv.utils.TMDBInterface;
 import retrofit2.Call;
@@ -37,6 +42,8 @@ import java.util.Locale;
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String TAG = "MainActivity";
+
     Toolbar tb;
 
     OnAirResult onAirResult;
@@ -47,7 +54,6 @@ public class Main extends AppCompatActivity
     ProgressBar loadingLayer;
 
     TMDBInterface tmdbInterface;
-    private Locale locale;
 
 
     @SuppressLint("CutPasteId")
@@ -59,7 +65,7 @@ public class Main extends AppCompatActivity
 
         String lang = settings.getString("LANG", "");
         if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
-            locale = new Locale(lang);
+            Locale locale = new Locale(lang);
             Locale.setDefault(locale);
             config.locale = locale;
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
@@ -121,9 +127,25 @@ public class Main extends AppCompatActivity
         });
 
 
-        //
+        RunJobScheduler();
+    }
 
+    private void RunJobScheduler(){
+        ComponentName componentName = new ComponentName(this, FetchJobService.class);
+        JobInfo info = new JobInfo.Builder(123, componentName)
+                .setRequiresCharging(true)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .setPeriodic(15 * 60 * 1000)
+                .build();
 
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(info);
+        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+            Log.d(TAG, "Job scheduled");
+        } else {
+            Log.d(TAG, "Job scheduling failed");
+        }
     }
 
     private void refreshRv(){
@@ -141,7 +163,7 @@ public class Main extends AppCompatActivity
 
         onAirResultCall.enqueue(new Callback<OnAirResult>() {
             @Override
-            public void onResponse(@NonNull Call<OnAirResult> call, @NonNull Response<OnAirResult> response) {
+            public void onResponse(Call<OnAirResult> call, Response<OnAirResult> response) {
                 assert response.body() != null;
                 setData(response.body());
                 loadingLayer.setVisibility(View.GONE);
@@ -149,13 +171,15 @@ public class Main extends AppCompatActivity
             }
 
             @Override
-            public void onFailure(@NonNull Call<OnAirResult> call, @NonNull Throwable t) {
+            public void onFailure(Call<OnAirResult> call, Throwable t) {
 
             }
         });
+
+
     }
 
-    private void setData(OnAirResult onAirResult){
+    private void setData(@NonNull OnAirResult onAirResult){
         this.onAirResult = onAirResult;
         this.onAirItems.addAll(onAirResult.getResults());
         mAdapter.notifyDataSetChanged();
@@ -163,7 +187,7 @@ public class Main extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -216,7 +240,7 @@ public class Main extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
