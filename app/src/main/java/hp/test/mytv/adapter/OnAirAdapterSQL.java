@@ -29,12 +29,11 @@ import hp.test.mytv.utils.DatabaseHelper;
 public class OnAirAdapterSQL extends RecyclerView.Adapter<OnAirAdapterSQL.OnAirViewHolder> {
 
     private List<OnAir> data;
-    private DatabaseHelper databaseHelper;
     private Context mContext;
     public OnAirAdapterSQL(List<OnAir> inputData,Context context) {
-        data = inputData;;
+        data = inputData;
         mContext=context;
-        databaseHelper = new DatabaseHelper(mContext);
+        DatabaseHelper databaseHelper = new DatabaseHelper(mContext);
     }
 
     class OnAirViewHolder extends RecyclerView.ViewHolder {

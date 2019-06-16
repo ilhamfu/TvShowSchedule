@@ -57,6 +57,12 @@ public class Favorite extends AppCompatActivity
         getFavorite();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getFavorite();
+    }
+
     private void getFavorite() {
         onAirList.clear();
         onAirList.addAll(databaseHelper.getFavorites());
