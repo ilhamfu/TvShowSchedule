@@ -2,16 +2,17 @@ package hp.test.mytv.services;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
+import hp.test.mytv.model.on_air.OnAirItem;
 import hp.test.mytv.model.on_air.OnAirResult;
-import hp.test.mytv.model.sql_lite.OnAir;
 import hp.test.mytv.utils.APIClient;
 import hp.test.mytv.utils.DatabaseHelper;
 import hp.test.mytv.utils.TMDBInterface;
@@ -47,7 +48,11 @@ public class FetchJobService extends JobService {
             @Override
             public void onResponse(@NonNull Call<OnAirResult> call, @NonNull Response<OnAirResult> response) {
                 assert response.body() != null;
-                addTv(response.body());
+                AllPagerResultReceiver allPagerResultReceiver = new AllPagerResultReceiver(new Handler());
+                Intent intent = new Intent(FetchJobService.this,FetchAllPageService.class);
+                intent.putExtra("receiver",allPagerResultReceiver);
+                intent.putExtra("TOTAL_PAGE",response.body().getTotalPages());
+                startService(intent);
             }
 
             @Override
@@ -57,15 +62,33 @@ public class FetchJobService extends JobService {
         });
     }
 
-    private void addTv(OnAirResult result) {
-        databaseHelper.addOnAirs(result.getResults());
-        databaseHelper.updateFavorite();
-    }
 
     @Override
     public boolean onStopJob(JobParameters params) {
         Log.d(TAG, "Job Finished");
         return true;
+    }
+
+    private class AllPagerResultReceiver extends ResultReceiver{
+        /**
+         * Create a new ResultReceive to receive results.  Your
+         * {@link #onReceiveResult} method will be called from the thread running
+         * <var>handler</var> if given, or from an arbitrary thread if null.
+         *
+         * @param handler
+         */
+        AllPagerResultReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle bundle){
+            List<OnAirItem> onAirItems = (List<OnAirItem>) bundle.getSerializable("DATA");
+            databaseHelper.addOnAirs(onAirItems);
+            databaseHelper.updateFavorite();
+        }
+
+
     }
 }
 

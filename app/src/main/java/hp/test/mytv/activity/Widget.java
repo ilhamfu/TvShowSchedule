@@ -10,8 +10,6 @@ import android.widget.Toast;
 
 import hp.test.mytv.R;
 
-import io.paperdb.Paper;
-
 /**
  * Implementation of App Widget functionality.
  */
@@ -26,15 +24,11 @@ public class Widget extends AppWidgetProvider {
         intent.setAction(CLICK_ACTION);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0,intent,0);
 
-        Paper.init(context);
 
-        String title = Paper.book().read("title");
-        String content = Paper.book().read("content");
+        String title = "asdasd";
+        String content = "sadasda";
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-        views.setTextViewText(R.id.appwidget_title, title);
-        views.setTextViewText(R.id.appwidget_content, content );
-        views.setOnClickPendingIntent(R.id.layout_wrapper,pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

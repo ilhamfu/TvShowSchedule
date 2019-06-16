@@ -20,6 +20,8 @@
             android:permission="android.permission.BIND_JOB_SERVICE"
             />
 
+        <service android:name=".services.FetchAllPageService" />
+
         <receiver android:name=".activity.Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

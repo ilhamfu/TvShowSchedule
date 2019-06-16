@@ -6,9 +6,9 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,25 +22,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import hp.test.mytv.adapter.OnAirAdapter;
 import hp.test.mytv.R;
 import hp.test.mytv.adapter.OnAirAdapterSQL;
-import hp.test.mytv.model.on_air.OnAirItem;
 import hp.test.mytv.model.on_air.OnAirResult;
 import hp.test.mytv.model.sql_lite.OnAir;
 import hp.test.mytv.services.FetchJobService;
 import hp.test.mytv.utils.APIClient;
 import hp.test.mytv.utils.DatabaseHelper;
 import hp.test.mytv.utils.TMDBInterface;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import android.content.res.Configuration;
-import java.util.Locale;
 
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -113,20 +106,6 @@ public class Main extends AppCompatActivity
         //Initialize Data
 
         refreshRv2();
-
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView rv, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (layoutManager.findLastCompletelyVisibleItemPosition()==onAirItems.size()-1){
-                    loadingLayer.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-//                    refreshRv();
-                }
-            }
-        });
-
 
         RunJobScheduler();
     }

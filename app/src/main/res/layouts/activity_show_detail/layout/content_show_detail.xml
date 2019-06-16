@@ -18,6 +18,29 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/label_subname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:textFontWeight="200"
+            android:text="Alternative Name"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_below="@+id/label_subname"
+            android:id="@+id/tv_subname"
+            android:text="Overview"
+            />
+
+        <TextView
+            android:layout_below="@+id/tv_subname"
             android:id="@+id/label_overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

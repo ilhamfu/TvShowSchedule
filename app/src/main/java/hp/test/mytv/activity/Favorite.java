@@ -58,7 +58,8 @@ public class Favorite extends AppCompatActivity
     }
 
     private void getFavorite() {
-        onAirList = databaseHelper.getOnAirs(true);
+        onAirList.clear();
+        onAirList.addAll(databaseHelper.getFavorites());
         onAirAdapterSQL.notifyDataSetChanged();
     }
 

@@ -89,7 +89,7 @@ public class OnAirAdapterSQL extends RecyclerView.Adapter<OnAirAdapterSQL.OnAirV
                 data.get(position).setFavorite(isChecked);
                 if (isChecked) {
                     holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_favorite_black_24dp));
-                    databaseHelper.addFavorite(data.get(position).getId());
+                    databaseHelper.addFavorite(data.get(position));
                 } else {
                     holder.btnFavorite.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_favorite_24dp));
                     databaseHelper.removeFavorite(data.get(position).getId());

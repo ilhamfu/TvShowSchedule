@@ -48,11 +48,15 @@ public class MovieDetail extends AppCompatActivity {
     private TextView tvRatingCount;
     private TextView tvPopularity;
     private TextView tvStatus;
+    private TextView tvSubname;
     private TextView tvLastAirDate;
     private RecyclerView rvNetwork;
     private Target mTarget;
+    private FloatingActionButton fab;
     private ExpandableHeightGridView gvGenres;
 
+
+    private DatabaseHelper databaseHelper;
     private boolean favorite;
 
     @SuppressLint({"RestrictedApi", "WrongViewCast"})
@@ -72,6 +76,7 @@ public class MovieDetail extends AppCompatActivity {
         tvStatus = findViewById(R.id.tv_status);
         gvGenres = findViewById(R.id.gv_genres);
         tvLastAirDate = findViewById(R.id.tv_last_air_date);
+        tvSubname = findViewById(R.id.tv_subname);
 
         rvNetwork = findViewById(R.id.rv_network);
         rvNetwork.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -79,36 +84,24 @@ public class MovieDetail extends AppCompatActivity {
         gvGenres.setNumColumns(2);
         gvGenres.setExpanded(true);
 
-        final DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+        databaseHelper = new DatabaseHelper(getApplicationContext());
 
         final int showID = (int) getIntent().getIntExtra("SHOW_ID",0);
-        String showName = getIntent().getStringExtra("SHOW_NAME");
-        String showSubname = getIntent().getStringExtra("SHOW_SUBNAME");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getIntent().getStringExtra("SHOW_NAME"));
+        tvSubname.setText(getIntent().getStringExtra("SHOW_SUBNAME"));
         favorite = getIntent().getBooleanExtra("FAVORITE",false);
         tvOverview.setText(getIntent().getStringExtra("OVERVIEW"));
 
         tmdbInterface = APIClient.getClient().create(TMDBInterface.class);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(showName);
+
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
         setData(showID);
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setImageDrawable(getDrawable(favorite?R.drawable.ic_favorite_black_24dp:R.drawable.ic_unfavorite_24dp));
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (updateFavorite()){
-                    fab.setImageDrawable(getDrawable(R.drawable.ic_favorite_black_24dp));
-                    databaseHelper.addFavorite(showID);
-                }else{
-                    fab.setImageDrawable(getDrawable(R.drawable.ic_unfavorite_24dp));
-                    databaseHelper.removeFavorite(showID);
-                };
 
-            }
-        });
 
 
     }
@@ -132,6 +125,7 @@ public class MovieDetail extends AppCompatActivity {
 
                 ivBackdropPath.setVisibility(View.VISIBLE);
                 pgLoadingPoster.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -150,7 +144,7 @@ public class MovieDetail extends AppCompatActivity {
         movieDetail.enqueue(new Callback<ShowDetailResult>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(@NonNull Call<ShowDetailResult> call, @NonNull Response<ShowDetailResult> response) {
+            public void onResponse(@NonNull Call<ShowDetailResult> call, @NonNull final Response<ShowDetailResult> response) {
                 assert response.body() != null;
                 ShowDetailResult movieDetailResult = response.body();
                 String imgUrl = "http://image.tmdb.org/t/p/w780" + movieDetailResult.getPosterPath();
@@ -170,6 +164,28 @@ public class MovieDetail extends AppCompatActivity {
                 gvGenres.setAdapter(new DetailGenreAdapter(movieDetailResult.getGenres(),tvOverview.getContext()));
 
                 Picasso.get().load(imgUrl).into(mTarget);
+
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (updateFavorite()){
+                            fab.setImageDrawable(getDrawable(R.drawable.ic_favorite_black_24dp));
+                            databaseHelper.addFavorite(
+                                    new OnAir(
+                                            response.body().getId(),
+                                            response.body().getOriginalName(),
+                                            response.body().getName(),
+                                            response.body().getOverview(),
+                                            response.body().getPosterPath(),true
+                                    )
+                            );
+                        }else{
+                            fab.setImageDrawable(getDrawable(R.drawable.ic_unfavorite_24dp));
+                            databaseHelper.removeFavorite(response.body().getId());
+                        };
+
+                    }
+                });
 
 
             }
