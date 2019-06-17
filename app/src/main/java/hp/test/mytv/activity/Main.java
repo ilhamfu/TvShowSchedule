@@ -1,9 +1,12 @@
 package hp.test.mytv.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -23,6 +26,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,7 +45,8 @@ public class Main extends AppCompatActivity
     public static final String TAG = "MainActivity";
 
     Toolbar tb;
-
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
     OnAirResult onAirResult;
     List<OnAir>  onAirItems = new ArrayList<OnAir>();
 
@@ -55,6 +60,15 @@ public class Main extends AppCompatActivity
     @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 22);
+        calendar.set(Calendar.MINUTE, 00);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         Configuration config = getBaseContext().getResources().getConfiguration();

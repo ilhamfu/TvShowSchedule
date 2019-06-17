@@ -1,12 +1,16 @@
 package hp.test.mytv.activity;
 
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
@@ -27,12 +31,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import io.paperdb.Paper;
+
+import java.util.Calendar;
 import java.util.Locale;
 
 import hp.test.mytv.R;
 
 public class Setting extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
     private  final  String CHANNEL_ID = "personal_norifications";
     private final int NOTIFICATION_ID = 001;
     Button btnSave;
@@ -61,6 +70,9 @@ public class Setting extends AppCompatActivity
 
 
 
+
+
+
         TextView bahasa=(TextView)findViewById(R.id.bahasa);
         bahasa.setOnClickListener(new View.OnClickListener() {
 
@@ -81,13 +93,15 @@ public class Setting extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+
     public void displayNotification(View view)
     {
         createNotificationChannel();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,CHANNEL_ID);
         builder.setSmallIcon(R.drawable.ic_notifications_black_24dp);
-        builder.setContentTitle("Title");
-        builder.setContentText("Detail");
+        builder.setContentTitle("THE TV SHOWS");
+        builder.setContentText("Don't Miss Your Favorite Shows Today");
+
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
